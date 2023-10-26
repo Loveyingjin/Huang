@@ -137,6 +137,5 @@ func (AliCloudDisk *AliCloudDisk) Run(pushPlusToken string, refreshToken string)
 	} else {
 		content := "签到成功，你已经签到" + signInCount + "次,本次签到奖励————" + reward
 		fmt.Println(content)
-		pushplus.Run(pushPlusToken, title, content)
 	}
 }
