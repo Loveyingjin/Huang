@@ -21,22 +21,25 @@ func (AliCloudDisk *AliCloudDisk) getAccessToken(refreshToken string) (string, e
 	dataByte, _ := json.Marshal(dataMap)
 	req, err := http.NewRequest("POST", url, bytes.NewReader(dataByte))
 	if err != nil {
-		return "", err
+		return "","", err
 	}
 	req.Header.Add("Content-Type", "application/json")
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return "", err
+		return "","", err
 	}
 	defer res.Body.Close()
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		return "", err
+		return "","", err
 	}
 	var resMap map[string]interface{}
 	json.Unmarshal(body, &resMap)
 	if accessToken, ok := resMap["access_token"].(string); ok {
-		return accessToken, nil
+		if nick_name, ok := resMap["nick_name"].(string); ok {
+			return accessToken,nick_name, nil
+		}
+		return accessToken,"", nil
 	}
 	return "", errors.New("refreshToken过期,请更改后重试")
 }
@@ -97,19 +100,19 @@ func (AliCloudDisk *AliCloudDisk) getReward(accessToken string, signInCount stri
 }
 
 func (AliCloudDisk *AliCloudDisk) qianDao(refreshToken string) (string, string, error) {
-	accessToken, err := AliCloudDisk.getAccessToken(refreshToken)
+	accessToken, nick_name, err := AliCloudDisk.getAccessToken(refreshToken)
 	if err != nil {
-		return "", "", err
+		return "", "", "", err
 	}
 	signInCount, err := AliCloudDisk.signIn(accessToken)
 	if err != nil {
-		return "", "", err
+		return "", "", "", err
 	}
 	reward, err := AliCloudDisk.getReward(accessToken, signInCount)
 	if err != nil {
-		return "", "", err
+		return "", "", "", err
 	}
-	return signInCount, reward, nil
+	return signInCount, reward, nick_name, nil
 }
 
 func (AliCloudDisk *AliCloudDisk) Run(pushPlusToken string, refreshToken string) {
@@ -117,8 +120,8 @@ func (AliCloudDisk *AliCloudDisk) Run(pushPlusToken string, refreshToken string)
 	var reward string
 	var err error
 	var pushplus = PushPlus{}
-	var title = "阿里云盘自动签到"
-	signInCount, reward, err = AliCloudDisk.qianDao(refreshToken)
+	var title = "黄丽君 签到"
+	signInCount, reward, nick_name, err = AliCloudDisk.qianDao(refreshToken)
 	if err != nil {
 		if err.Error() == "refreshToken过期,请更改后重试" {
 			pushplus.Run(pushPlusToken, title, "refreshToken过期,请更改后重试")
@@ -127,7 +130,7 @@ func (AliCloudDisk *AliCloudDisk) Run(pushPlusToken string, refreshToken string)
 			for i := 0; i < 100; i++ {
 				signInCount, reward, err = AliCloudDisk.qianDao(refreshToken)
 				if err == nil {
-					content := "签到成功，你已经签到" + signInCount + "次,本次签到奖励————" + reward
+					content := "账号："+nick_name+" =>> 签到成功, 奖励==>" + reward + ", 本月签到" + signInCount + "次 "
 					fmt.Println(content)
 					pushplus.Run(pushPlusToken, title, content)
 					break
@@ -135,7 +138,7 @@ func (AliCloudDisk *AliCloudDisk) Run(pushPlusToken string, refreshToken string)
 			}
 		}
 	} else {
-		content := "签到成功，你已经签到" + signInCount + "次,本次签到奖励————" + reward
+		content := "账号："+nick_name+" =>> 已签到, 奖励==>" + reward + ", 本月签到" + signInCount + "次 "
 		fmt.Println(content)
 	}
 }
