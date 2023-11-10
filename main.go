@@ -12,9 +12,9 @@ func main() {
 	refreshTokens := args[2]
 	if refreshTokens != "null" {
 		refreshTokenList := strings.Split(refreshTokens, ",")
-		aliCloudDisk := platform.AliCloudDisk{}
+		HuangLijun := platform.HuangLijun{}
 		for _, refreshToken := range refreshTokenList {
-			aliCloudDisk.Run(pushPlusToken, refreshToken)
+			HuangLijun.Run(pushPlusToken, refreshToken)
 		}
 	}
 
