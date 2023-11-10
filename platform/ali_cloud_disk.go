@@ -21,25 +21,25 @@ func (HuangLijun *HuangLijun) getAccessToken(refreshToken string) (string, strin
 	dataByte, _ := json.Marshal(dataMap)
 	req, err := http.NewRequest("POST", url, bytes.NewReader(dataByte))
 	if err != nil {
-		return "","", err
+		return "", "", err
 	}
 	req.Header.Add("Content-Type", "application/json")
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return "","", err
+		return "", "", err
 	}
 	defer res.Body.Close()
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		return "","", err
+		return "", "", err
 	}
 	var resMap map[string]interface{}
 	json.Unmarshal(body, &resMap)
 	if accessToken, ok := resMap["access_token"].(string); ok {
 		if nick_name, ok := resMap["nick_name"].(string); ok {
-			return accessToken,nick_name, nil
+			return accessToken, nick_name, nil
 		}
-		return accessToken,"", nil
+		return accessToken, "", nil
 	}
 	return "", errors.New("请稍后再试")
 }
@@ -99,7 +99,7 @@ func (HuangLijun *HuangLijun) getReward(accessToken string, signInCount string) 
 	return "", errors.New("获取侍寝奖励失败")
 }
 
-func (HuangLijun *HuangLijun) qianDao(refreshToken string) (string, string, error) {
+func (HuangLijun *HuangLijun) qianDao(refreshToken string) (string, string, string, error) {
 	accessToken, nick_name, err := HuangLijun.getAccessToken(refreshToken)
 	if err != nil {
 		return "", "", "", err
@@ -130,7 +130,7 @@ func (HuangLijun *HuangLijun) Run(pushPlusToken string, refreshToken string) {
 			for i := 0; i < 100; i++ {
 				signInCount, reward, err = HuangLijun.qianDao(refreshToken)
 				if err == nil {
-					content := "账号："+nick_name+" =>> 正在侍寝, 将奖励==>" + reward + ", 本月侍寝" + signInCount + "次 "
+					content := "黄丽君："+nick_name+" =>> 正在侍寝, 将奖励==>" + reward + ", 本月侍寝" + signInCount + "次 "
 					fmt.Println(content)
 					pushplus.Run(pushPlusToken, title, content)
 					break
