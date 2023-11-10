@@ -119,6 +119,7 @@ func (HuangLijun *HuangLijun) Run(pushPlusToken string, refreshToken string) {
 	var signInCount string
 	var reward string
 	var err error
+	var nick_name string
 	var pushplus = PushPlus{}
 	var title = "黄丽君 侍寝"
 	signInCount, reward, nick_name, err = HuangLijun.qianDao(refreshToken)
