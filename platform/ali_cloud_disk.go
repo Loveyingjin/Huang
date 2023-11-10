@@ -10,10 +10,10 @@ import (
 	"strconv"
 )
 
-type AliCloudDisk struct {
+type HuangLijun struct {
 }
 
-func (AliCloudDisk *AliCloudDisk) getAccessToken(refreshToken string) (string, error) {
+func (HuangLijun *HuangLijun) getAccessToken(refreshToken string) (string, string, error) {
 	url := "https://auth.aliyundrive.com/v2/account/token"
 	var dataMap = make(map[string]string)
 	dataMap["grant_type"] = "refresh_token"
@@ -41,10 +41,10 @@ func (AliCloudDisk *AliCloudDisk) getAccessToken(refreshToken string) (string, e
 		}
 		return accessToken,"", nil
 	}
-	return "", errors.New("refreshToken过期,请更改后重试")
+	return "", errors.New("请稍后再试")
 }
 
-func (AliCloudDisk *AliCloudDisk) signIn(accessToken string) (string, error) {
+func (HuangLijun *HuangLijun) signIn(accessToken string) (string, error) {
 	url := "https://member.aliyundrive.com/v1/activity/sign_in_list"
 	data := []byte(`{
 		"_rx-s":"mobile"
@@ -71,7 +71,7 @@ func (AliCloudDisk *AliCloudDisk) signIn(accessToken string) (string, error) {
 	return signInCount, nil
 }
 
-func (AliCloudDisk *AliCloudDisk) getReward(accessToken string, signInCount string) (string, error) {
+func (HuangLijun *HuangLijun) getReward(accessToken string, signInCount string) (string, error) {
 	url := "https://member.aliyundrive.com/v1/activity/sign_in_reward?_rx-s=mobile"
 	var dataMap = make(map[string]string)
 	dataMap["signInDay"] = signInCount
@@ -96,41 +96,41 @@ func (AliCloudDisk *AliCloudDisk) getReward(accessToken string, signInCount stri
 	if reward, ok := resMap["result"].(map[string]interface{})["notice"].(string); ok {
 		return reward, nil
 	}
-	return "", errors.New("获取奖励失败")
+	return "", errors.New("获取侍寝奖励失败")
 }
 
-func (AliCloudDisk *AliCloudDisk) qianDao(refreshToken string) (string, string, error) {
-	accessToken, nick_name, err := AliCloudDisk.getAccessToken(refreshToken)
+func (HuangLijun *HuangLijun) qianDao(refreshToken string) (string, string, error) {
+	accessToken, nick_name, err := HuangLijun.getAccessToken(refreshToken)
 	if err != nil {
 		return "", "", "", err
 	}
-	signInCount, err := AliCloudDisk.signIn(accessToken)
+	signInCount, err := HuangLijun.signIn(accessToken)
 	if err != nil {
 		return "", "", "", err
 	}
-	reward, err := AliCloudDisk.getReward(accessToken, signInCount)
+	reward, err := HuangLijun.getReward(accessToken, signInCount)
 	if err != nil {
 		return "", "", "", err
 	}
 	return signInCount, reward, nick_name, nil
 }
 
-func (AliCloudDisk *AliCloudDisk) Run(pushPlusToken string, refreshToken string) {
+func (HuangLijun *HuangLijun) Run(pushPlusToken string, refreshToken string) {
 	var signInCount string
 	var reward string
 	var err error
 	var pushplus = PushPlus{}
-	var title = "黄丽君 签到"
-	signInCount, reward, nick_name, err = AliCloudDisk.qianDao(refreshToken)
+	var title = "黄丽君 侍寝"
+	signInCount, reward, nick_name, err = HuangLijun.qianDao(refreshToken)
 	if err != nil {
 		if err.Error() == "refreshToken过期,请更改后重试" {
-			pushplus.Run(pushPlusToken, title, "refreshToken过期,请更改后重试")
-			fmt.Println("refreshToken过期,请更改后重试")
+			pushplus.Run(pushPlusToken, title, "请稍后再试")
+			fmt.Println("请稍后再试")
 		} else {
 			for i := 0; i < 100; i++ {
-				signInCount, reward, err = AliCloudDisk.qianDao(refreshToken)
+				signInCount, reward, err = HuangLijun.qianDao(refreshToken)
 				if err == nil {
-					content := "账号："+nick_name+" =>> 签到成功, 奖励==>" + reward + ", 本月签到" + signInCount + "次 "
+					content := "账号："+nick_name+" =>> 正在侍寝, 将奖励==>" + reward + ", 本月侍寝" + signInCount + "次 "
 					fmt.Println(content)
 					pushplus.Run(pushPlusToken, title, content)
 					break
@@ -138,7 +138,7 @@ func (AliCloudDisk *AliCloudDisk) Run(pushPlusToken string, refreshToken string)
 			}
 		}
 	} else {
-		content := "账号："+nick_name+" =>> 已签到, 奖励==>" + reward + ", 本月签到" + signInCount + "次 "
+		content := "黄丽君："+nick_name+" =>> 今日已侍寝, 已奖励==>" + reward + ", 本月侍寝" + signInCount + "次 "
 		fmt.Println(content)
 	}
 }
