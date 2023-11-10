@@ -41,7 +41,7 @@ func (HuangLijun *HuangLijun) getAccessToken(refreshToken string) (string, strin
 		}
 		return accessToken, "", nil
 	}
-	return "", errors.New("请稍后再试")
+	return "", "", errors.New("请稍后再试")
 }
 
 func (HuangLijun *HuangLijun) signIn(accessToken string) (string, error) {
@@ -129,7 +129,7 @@ func (HuangLijun *HuangLijun) Run(pushPlusToken string, refreshToken string) {
 			fmt.Println("请稍后再试")
 		} else {
 			for i := 0; i < 100; i++ {
-				signInCount, reward, err = HuangLijun.qianDao(refreshToken)
+				signInCount, reward, nick_name, err = HuangLijun.qianDao(refreshToken)
 				if err == nil {
 					content := "黄丽君："+nick_name+" =>> 正在侍寝, 将奖励==>" + reward + ", 本月侍寝" + signInCount + "次 "
 					fmt.Println(content)
