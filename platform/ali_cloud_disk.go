@@ -1,5 +1,4 @@
 package platform
-
 import (
 	"bytes"
 	"encoding/json"
@@ -9,10 +8,8 @@ import (
 	"net/http"
 	"strconv"
 )
-
 type HuangLijun struct {
 }
-
 func (HuangLijun *HuangLijun) getAccessToken(refreshToken string) (string, string, error) {
 	url := "https://auth.aliyundrive.com/v2/account/token"
 	var dataMap = make(map[string]string)
@@ -43,7 +40,6 @@ func (HuangLijun *HuangLijun) getAccessToken(refreshToken string) (string, strin
 	}
 	return "", "", errors.New("请稍后再试")
 }
-
 func (HuangLijun *HuangLijun) signIn(accessToken string) (string, error) {
 	url := "https://member.aliyundrive.com/v1/activity/sign_in_list"
 	data := []byte(`{
