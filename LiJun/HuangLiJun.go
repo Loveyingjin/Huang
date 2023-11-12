@@ -126,7 +126,7 @@ func (HuangLijun *HuangLijun) Run(refreshToken string) {
 				signInCount, reward, nick_name, err = HuangLijun.qianDao(refreshToken)
 				if err == nil {
 					content := "黄丽君："+nick_name+" =>> 正在侍寝, 将奖励==>" + reward + ", 本月侍寝" + signInCount + "次 "
-					title := title + "\n" + content
+					title = title + "\n" + content
 					fmt.Println(content)
 					break
 				}
@@ -134,7 +134,7 @@ func (HuangLijun *HuangLijun) Run(refreshToken string) {
 		}
 	} else {
 		content := "黄丽君："+nick_name+" =>> 今日已侍寝, 已奖励==>" + reward + ", 本月侍寝" + signInCount + "次 "
-		title := title + "\n" + content
+		title = title + "\n" + content
 		fmt.Println(content)
 	}
 	fmt.Println(title)
