@@ -74,7 +74,7 @@ func (HuangLijun *HuangLijun) signIn(accessToken string) (string, error) {
 func (HuangLijun *HuangLijun) QYWX(messages string){
 	data := []byte(buildMsg(messages, true))
 	url := "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=e28f7b52-155f-4ac7-a824-77e285ddd086"
-	request, err := http.NewRequest("POST", url, bytes.NewBuffer(messages))
+	request, err := http.NewRequest("POST", url, bytes.NewBuffer(data))
 }
 
 func (HuangLijun *HuangLijun) getReward(accessToken string, signInCount string) (string, error) {
