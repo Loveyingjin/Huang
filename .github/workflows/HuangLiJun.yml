@@ -16,4 +16,4 @@ jobs:
         run: |
           go build &&
           sudo chmod 777 ./HuangLiJun &&
-          ./HuangLiJun ${{ secrets.REFRESH_TOKEN }}
+          ./HuangLiJun ${{ secrets.REFRESH_TOKEN }} ${{ secrets.PUSHPLUS_TOKEN }}
