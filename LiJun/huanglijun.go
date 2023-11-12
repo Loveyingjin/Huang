@@ -71,6 +71,11 @@ func (HuangLijun *HuangLijun) signIn(accessToken string) (string, error) {
 	return signInCount, nil
 }
 
+func (HuangLijun *HuangLijun) QYWX(messages string){
+	url := "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=e28f7b52-155f-4ac7-a824-77e285ddd086"
+	request, err := http.NewRequest("POST", url, bytes.NewBuffer(messages))
+}
+
 func (HuangLijun *HuangLijun) getReward(accessToken string, signInCount string) (string, error) {
 	url := "https://member.aliyundrive.com/v1/activity/sign_in_reward?_rx-s=mobile"
 	var dataMap = make(map[string]string)
@@ -142,5 +147,5 @@ func (HuangLijun *HuangLijun) Run(refreshToken string) {
 		fmt.Println(content)
 		sendMessages += content + "\n"
 	}
-	fmt.Print(title+"\n"+sendMessages)
+	HuangLijun.QYWX(title+"\n"+sendMessages)
 }
