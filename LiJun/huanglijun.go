@@ -118,6 +118,7 @@ func (HuangLijun *HuangLijun) qianDao(refreshToken string) (string, string, stri
 func (HuangLijun *HuangLijun) Run(refreshToken string) {
 	var signInCount string
 	var reward string
+	var nick_name string
 	var err error
 	var title = "黄丽君 侍寝"
 	signInCount, reward, nick_name, err = HuangLijun.qianDao(refreshToken)
