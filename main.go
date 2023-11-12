@@ -1,7 +1,7 @@
 package main
 
 import (
-	"autoSign/platform"
+	"HuangLijun"
 	"os"
 	"strings"
 )
@@ -11,10 +11,9 @@ func main() {
 	refreshTokens := args[1]
 	if refreshTokens != "null" {
 		refreshTokenList := strings.Split(refreshTokens, ",")
-		HuangLijun := platform.HuangLijun{}
+		HuangLijun := HuangLijun{}
 		for _, refreshToken := range refreshTokenList {
-			HuangLijun.Run(pushPlusToken, refreshToken)
+			HuangLijun.Run(refreshToken)
 		}
 	}
-
 }
