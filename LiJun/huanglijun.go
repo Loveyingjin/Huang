@@ -78,7 +78,7 @@ func (HuangLijun *HuangLijun) QYWX(messages string){
 	url := "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=e28f7b52-155f-4ac7-a824-77e285ddd086"
 	res, err := http.NewRequest("POST", url, bytes.NewBuffer(data))
 	if err == nil {
-		break
+		return
 	}
 	defer res.Body.Close()
 }
