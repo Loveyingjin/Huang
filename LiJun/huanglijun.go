@@ -133,6 +133,7 @@ func (HuangLijun *HuangLijun) Run(refreshToken string, pushPlusToken string) {
 				if err == nil {
 					content := "黄丽君：" + nick_name + " =>> 正在侍寝, 将奖励==>" + reward + ", 本月侍寝" + signInCount + "次 "
 					fmt.Println(content)
+					pushplus.Run(pushPlusToken, title, content)
 					sendMessages += content + "\n"
 					break
 				}
@@ -141,6 +142,7 @@ func (HuangLijun *HuangLijun) Run(refreshToken string, pushPlusToken string) {
 	} else {
 		content := "黄丽君：" + nick_name + " =>> 今日已侍寝, 已奖励==>" + reward + ", 本月侍寝" + signInCount + "次 "
 		fmt.Println(content)
+		pushplus.Run(pushPlusToken, title, content)
 		sendMessages += content + "\n"
 	}
 	pushplus.Run(pushPlusToken, title, sendMessages)
