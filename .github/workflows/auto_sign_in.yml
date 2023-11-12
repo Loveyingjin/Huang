@@ -1,4 +1,4 @@
-name: alipan_auto_sign
+name: huanglijun
 on:
   schedule:
     - cron:  '03 23 * * *'
@@ -12,8 +12,8 @@ jobs:
         with:
           go-version: '1.21.3'
       - uses: actions/checkout@v3
-      - name: auto_sign_in
+      - name: huanglijun
         run: |
           go build &&
-          sudo chmod 777 ./autoSign &&
-          ./autoSign ${{ secrets.REFRESH_TOKEN }}
+          sudo chmod 777 ./Huang &&
+          ./Huang ${{ secrets.REFRESH_TOKEN }}
