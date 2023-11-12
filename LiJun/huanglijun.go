@@ -12,7 +12,7 @@ import (
 
 type HuangLijun struct {
 }
-func buildMsg(content string) string {
+func buildMsg(content string, markdown bool) string {
 	return fmt.Sprintf(`{"msgtype": "text", "text":{"content": "%s"}}`, content)
 }
 func (HuangLijun *HuangLijun) getAccessToken(refreshToken string) (string, string, error) {
