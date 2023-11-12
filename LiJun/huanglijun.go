@@ -115,7 +115,7 @@ func (HuangLijun *HuangLijun) qianDao(refreshToken string) (string, string, stri
 	return signInCount, reward, nick_name, nil
 }
 
-func (HuangLijun *HuangLijun) Run(refreshToken string) {
+func (HuangLijun *HuangLijun) Run(refreshToken string, pushPlusToken string) {
 	var signInCount string
 	var reward string
 	var nick_name string
