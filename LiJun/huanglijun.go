@@ -1,4 +1,5 @@
 package LiJun
+
 import (
 	"bytes"
 	"encoding/json"
@@ -8,8 +9,10 @@ import (
 	"net/http"
 	"strconv"
 )
+
 type HuangLijun struct {
 }
+
 func (HuangLijun *HuangLijun) getAccessToken(refreshToken string) (string, string, error) {
 	url := "https://auth.aliyundrive.com/v2/account/token"
 	var dataMap = make(map[string]string)
@@ -40,6 +43,7 @@ func (HuangLijun *HuangLijun) getAccessToken(refreshToken string) (string, strin
 	}
 	return "", "", errors.New("请稍后再试")
 }
+
 func (HuangLijun *HuangLijun) signIn(accessToken string) (string, error) {
 	url := "https://member.aliyundrive.com/v1/activity/sign_in_list"
 	data := []byte(`{
@@ -115,7 +119,6 @@ func (HuangLijun *HuangLijun) Run(refreshToken string) {
 	var signInCount string
 	var reward string
 	var err error
-	var nick_name string
 	var title = "黄丽君 侍寝"
 	signInCount, reward, nick_name, err = HuangLijun.qianDao(refreshToken)
 	if err != nil {
