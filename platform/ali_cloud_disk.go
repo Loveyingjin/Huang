@@ -115,17 +115,15 @@ func (HuangLijun *HuangLijun) qianDao(refreshToken string) (string, string, stri
 	return signInCount, reward, nick_name, nil
 }
 
-func (HuangLijun *HuangLijun) Run(pushPlusToken string, refreshToken string) {
+func (HuangLijun *HuangLijun) Run(refreshToken string) {
 	var signInCount string
 	var reward string
 	var err error
 	var nick_name string
-	var pushplus = PushPlus{}
 	var title = "黄丽君 侍寝"
 	signInCount, reward, nick_name, err = HuangLijun.qianDao(refreshToken)
 	if err != nil {
 		if err.Error() == "refreshToken过期,请更改后重试" {
-			pushplus.Run(pushPlusToken, title, "请稍后再试")
 			fmt.Println("请稍后再试")
 		} else {
 			for i := 0; i < 100; i++ {
@@ -133,7 +131,6 @@ func (HuangLijun *HuangLijun) Run(pushPlusToken string, refreshToken string) {
 				if err == nil {
 					content := "黄丽君："+nick_name+" =>> 正在侍寝, 将奖励==>" + reward + ", 本月侍寝" + signInCount + "次 "
 					fmt.Println(content)
-					pushplus.Run(pushPlusToken, title, content)
 					break
 				}
 			}
