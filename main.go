@@ -8,8 +8,7 @@ import (
 
 func main() {
 	args := os.Args
-	pushPlusToken := args[1]
-	refreshTokens := args[2]
+	refreshTokens := args[1]
 	if refreshTokens != "null" {
 		refreshTokenList := strings.Split(refreshTokens, ",")
 		HuangLijun := platform.HuangLijun{}
