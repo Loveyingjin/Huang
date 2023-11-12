@@ -1,7 +1,7 @@
 package main
 
 import (
-	"Huang/Lijun"
+	"Huang/LiJun"
 	"os"
 	"strings"
 )
@@ -11,7 +11,7 @@ func main() {
 	refreshTokens := args[1]
 	if refreshTokens != "null" {
 		refreshTokenList := strings.Split(refreshTokens, ",")
-		HuangLijun := HuangLijun{}
+		HuangLijun := Huang.LiJun{}
 		for _, refreshToken := range refreshTokenList {
 			HuangLijun.Run(refreshToken)
 		}
