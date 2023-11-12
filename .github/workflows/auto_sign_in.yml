@@ -1,7 +1,7 @@
-name: huanglijun
+name: HuangLiJun
 on:
   schedule:
-    - cron:  '03 23 * * *'
+    - cron:  '12 8 * * *'
   workflow_dispatch:
 jobs:
   build:
@@ -12,8 +12,8 @@ jobs:
         with:
           go-version: '1.21.3'
       - uses: actions/checkout@v3
-      - name: huanglijun
+      - name: auto_sign_in
         run: |
           go build &&
-          sudo chmod 777 ./Huang &&
-          ./Huang ${{ secrets.REFRESH_TOKEN }}
+          sudo chmod 777 ./HuangLiJun &&
+          ./HuangLiJun ${{ secrets.REFRESH_TOKEN }}
