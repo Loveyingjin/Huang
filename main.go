@@ -1,7 +1,7 @@
 package main
 
 import (
-	"HuangLijun"
+	"Huang/Lijun"
 	"os"
 	"strings"
 )
