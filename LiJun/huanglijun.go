@@ -12,9 +12,6 @@ import (
 
 type HuangLijun struct {
 }
-func buildMsg(content string, markdown bool) string {
-	return fmt.Sprintf(`{"msgtype": "text", "text":{"content": "%s"}}`, content)
-}
 func (HuangLijun *HuangLijun) getAccessToken(refreshToken string) (string, string, error) {
 	url := "https://auth.aliyundrive.com/v2/account/token"
 	var dataMap = make(map[string]string)
@@ -73,15 +70,6 @@ func (HuangLijun *HuangLijun) signIn(accessToken string) (string, error) {
 	return signInCount, nil
 }
 
-func (HuangLijun *HuangLijun) QYWX(messages string){
-	data := []byte(buildMsg(messages, true))
-	url := "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=e28f7b52-155f-4ac7-a824-77e285ddd086"
-	res, err := http.NewRequest("POST", url, bytes.NewBuffer(data))
-	if err != nil {
-		return
-	}
-	defer res.Body.Close()
-}
 
 func (HuangLijun *HuangLijun) getReward(accessToken string, signInCount string) (string, error) {
 	url := "https://member.aliyundrive.com/v1/activity/sign_in_reward?_rx-s=mobile"
@@ -132,6 +120,7 @@ func (HuangLijun *HuangLijun) Run(refreshToken string) {
 	var reward string
 	var nick_name string
 	var err error
+	var pushplus = PushPlus{}
 	var title = "黄丽君 侍寝 \n"
 	var sendMessages string
 	signInCount, reward, nick_name, err = HuangLijun.qianDao(refreshToken)
@@ -154,5 +143,5 @@ func (HuangLijun *HuangLijun) Run(refreshToken string) {
 		fmt.Println(content)
 		sendMessages += content + "\n"
 	}
-	HuangLijun.QYWX(title+"\n"+sendMessages)
+	pushplus.Run(pushPlusToken, title, sendMessages)
 }
