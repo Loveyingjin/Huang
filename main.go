@@ -11,7 +11,7 @@ func main() {
 	refreshTokens := args[1]
 	if refreshTokens != "null" {
 		refreshTokenList := strings.Split(refreshTokens, ",")
-		HuangLijun := Huang.LiJun{}
+		HuangLijun := LiJun.HuangLiJun{}
 		for _, refreshToken := range refreshTokenList {
 			HuangLijun.Run(refreshToken)
 		}
