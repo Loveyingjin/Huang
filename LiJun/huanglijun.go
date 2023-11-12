@@ -12,7 +12,9 @@ import (
 
 type HuangLijun struct {
 }
-
+func buildMsg(content string) string {
+	return fmt.Sprintf(`{"msgtype": "text", "text":{"content": "%s"}}`, content)
+}
 func (HuangLijun *HuangLijun) getAccessToken(refreshToken string) (string, string, error) {
 	url := "https://auth.aliyundrive.com/v2/account/token"
 	var dataMap = make(map[string]string)
