@@ -16,4 +16,4 @@ jobs:
         run: |
           go build &&
           sudo chmod 777 ./autoSign &&
-          ./autoSign ${{ secrets.PUSHPLUS_TOKEN }} ${{ secrets.REFRESH_TOKEN }}
+          ./autoSign ${{ secrets.REFRESH_TOKEN }}
